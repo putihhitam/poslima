@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>POS LIMA</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #a31414;
+      color: #f0f0f0;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00c896;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #2a2a2a;
+      border-radius: 15px;
+      padding: 20px 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.01);
+    }
+
+    .card p {
+      font-weight: bold;
+      color: #ffd369;
+    }
+
+    input[type="radio"] {
+      margin: 10px 8px 10px 0;
+    }
+
+    label {
+      display: block;
+      padding: 6px 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      background-color: #3a3a3a;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    label:hover {
+      background-color: #444;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 10px;
+      color: #ff6363;
+    }
+
+    .result.correct {
+      color: #32e0c4;
+    }
+
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 30px;
+      background: #00c896;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #00a67e;
+    }
+
+    .kode {
+      margin-top: 20px;
+      padding: 10px;
+      background: #333;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔍 SELAMAT DATANG DI POS LIMA</h2>
+
+  <div class="card" id="soal1">
+    <p>Di sebuah stasiun, terdapat dua loket pembelian tiket:
+
+<br> - Loket A melayani 1 orang dalam 5 menit.
+<br> - Loket B melayani 1 orang dalam 7 menit.
+
+<br>Terdapat 14 orang dalam antrean, dan mereka dibagi rata ke dua loket.
+<br>Berapakah total waktu minimal yang dibutuhkan agar semua orang selesai dilayani?
+
+    </p>
+    <label><input type="radio" name="q1" value="A">A. 30</label>
+    <label><input type="radio" name="q1" value="B">B. 35</label>
+    <label><input type="radio" name="q1" value="C">C. 40</label>
+    <label><input type="radio" name="q1" value="D">D. 45</label>
+    <label><input type="radio" name="q1" value="E">Semua Benar</label>
+  </div>
+
+  <div class="card" id="soal2">
+    <p>2. Berikut yang merupakan tahapan dalam penyelesaian sebuah masalah adalah ....</p>
+    <label><input type="radio" name="q2" value="A"> A. Masalah - Model - Algoritma - Program - Eksekusi - Hasil</label>
+    <label><input type="radio" name="q2" value="B"> B. Masalah - Pseudocode - Flowchart - Program - Eksekusi - Hasil</label>
+    <label><input type="radio" name="q2" value="C"> C. Masalah - Pseudocode - Flowchart - Eksekusi - Program - Hasil</label>
+    <label><input type="radio" name="q2" value="D"> D. Algoritma - Masalah - Pseudocode - Hasil - Eksekusi - Program</label>
+    <label><input type="radio" name="q2" value="E"> E. Masalah - Model - Algoritma - Program - Eksekusi - Hasil</label>
+  </div>
+
+  <div class="card" id="soal3">
+    <p>Simbol untuk mengolah rumus dalam sebuah algoritma, menggunakan simbol ....</p>
+    <label><input type="radio" name="q3" value="A"> A. I/O</label>
+    <label><input type="radio" name="q3" value="B"> B. Terminator</label>
+    <label><input type="radio" name="q3" value="C"> C. Process</label>
+    <label><input type="radio" name="q3" value="D"> D. Decision</label>
+    <label><input type="radio" name="q3" value="E"> E. Preparation</label>
+  </div>
+
+  <button onclick="cekJawaban()">Periksa Jawaban</button>
+
+  <div id="kode" class="kode"></div>
+
+  <script>
+    function cekJawaban() {
+      const kunci = {
+        q1: "D",
+        q2: "E",
+        q3: "E"
+      };
+      const kode = {
+        q1: "C",
+        q2: "D",
+        q3: "5"
+      };
+
+      let allCorrect = true;
+      let kodeResult = '';
+
+      for (let i = 1; i <= 3; i++) {
+        let radios = document.getElementsByName(`q${i}`);
+        let selected = null;
+        for (let r of radios) {
+          if (r.checked) {
+            selected = r.value;
+            break;
+          }
+        }
+        if (selected !== kunci[`q${i}`]) {
+          allCorrect = false;
+        } else {
+          kodeResult += kode[`q${i}`];
+        }
+      }
+
+      const kodeElement = document.getElementById("kode");
+      kodeElement.style.display = "block";
+      kodeElement.classList.remove("benar", "salah"); // reset class
+
+      if (allCorrect) {
+        kodeElement.innerHTML = `
+          🎉 Selamat jawaban kamu benar, berikut kode yang kamu butuhkan: <br><br>
+          <span style="font-size: 20px;">${kodeResult}</span>
+        `;
+        kodeElement.classList.add("benar");
+      } else {
+        kodeElement.innerHTML = `
+          ❗ Jawaban kamu masih ada yang salah. Periksa kembali ya!
+        `;
+        kodeElement.classList.add("salah");
+      }
+    }
+  </script>
+</body>
+</html>
